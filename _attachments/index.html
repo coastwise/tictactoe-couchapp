@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My New CouchApp</title>
+    <title>CouchGames - Tic Tac Toe</title>
     <link rel="stylesheet" href="style/main.css" type="text/css">
   </head>
   <body>
     <div id="account"></div>
 
-    <h1>Generated CouchApp</h1>
+    <h1>Tic Tac Toe</h1>
 
     <div id="profile"></div>
     <div id="items"></div>
@@ -23,7 +23,7 @@
       $("#account").evently("account", app);
       $("#profile").evently("profile", app);
       $.evently.connect("#account","#profile", ["loggedIn","loggedOut"]);
-      $("#items").evently("items", app);
+      $("#items").evently("games", app);
     });
   </script>
 </html>
