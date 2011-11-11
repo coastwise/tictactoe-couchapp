@@ -4,9 +4,14 @@ function(data) {
 	return {
 		games : data.rows.map(function(r) {
 			p = {};
-			p.opponent = r.key[1];
+			p.player = r.key.player;
+			for (player in r.value.players) {
+				if (r.value.players[player].name != r.key.player) {
+					p.opponent = r.value.players[player].name;
+				}
+			}
 			p.gameid = r.value._id;
-			p.turn = r.value._rev;
+			p.turn = r.value.turn;
 			return p;
 		})
 	}
