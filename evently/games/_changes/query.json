@@ -1,5 +1,5 @@
 {
-  "view" : "games-by-player",
-  "descending" : "true",
-  "limit" : 50
+	"view" : "games-by-player",
+	"descending" : "true",
+	"limit" : 50
 }
