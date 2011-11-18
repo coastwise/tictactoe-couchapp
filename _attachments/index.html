@@ -10,7 +10,7 @@
 		<h1>Tic Tac Toe</h1>
 
 		<div id="profile"></div>
-		<div id="items"></div>
+		<div id="mygames"></div>
 
 		<div id="sidebar">
 			<p>Edit welcome message.</p>
@@ -23,8 +23,8 @@
 			$("#account").evently("account", app);
 			$("#profile").evently("profile", app);
 			$.evently.connect("#account","#profile", ["loggedIn","loggedOut"]);
-			$("#items").evently("games", app);
-			$.evently.connect("#profile", "#items", ["profileReady","loggedOut"]);
+			$("#mygames").evently("mygames", app);
+			$.evently.connect("#profile", "#mygames", ["profileReady","loggedOut"]);
 		});
 	</script>
 </html>
