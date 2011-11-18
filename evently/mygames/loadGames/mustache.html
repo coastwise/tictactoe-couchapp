@@ -1,9 +1,8 @@
-<p>Customize this format here: <tt>ddoc.evently.items._changes.mustache</tt></p>
 <h3>Your Games</h3>
 <ul>
 	{{#games}}
 		<li>
-			<p class="game">{{player}} vs {{opponent}} - turn {{turn}} {{gameid}}</p>
+			<p class="game">{{player}} vs {{opponent}} - turn {{turn}} <a href="#{{gameid}}">play!!</a></p>
 			<div style="clear:left;"></div>
 		</li>
 	{{/games}}
