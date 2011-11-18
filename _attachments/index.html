@@ -24,6 +24,7 @@
 			$("#profile").evently("profile", app);
 			$.evently.connect("#account","#profile", ["loggedIn","loggedOut"]);
 			$("#items").evently("games", app);
+			$.evently.connect("#profile", "#items", ["profileReady","loggedOut"]);
 		});
 	</script>
 </html>
