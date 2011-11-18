@@ -1,3 +1,3 @@
 function(data) {
-	$.log(data)
+	$.log(data.rows[0].value);
 };
