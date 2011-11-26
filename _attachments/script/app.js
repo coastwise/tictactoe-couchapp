@@ -20,21 +20,47 @@ $(function() {
 	var path = unescape(document.location.pathname).split('/'),
 		design = path[3],
 		db = $.couch.db(path[1]);
-	function drawItems() {
-		db.view(design + "/recent-items", {
-			descending : "true",
+	
+	function drawGameList(r) {
+		if (!r.userCtx || !r.userCtx.name) {
+			console.log("ERROR: cannot draw games list for null player");
+			return;
+		}
+		var username = r.userCtx.name;
+		
+		db.view(design + "/games-by-player", {
+			startkey : {
+				player : username
+			},
+			endkey : {
+				player : username,
+				turn : true
+			},
 			limit : 50,
 			update_seq : true,
+			
 			success : function(data) {
-				setupChanges(data.update_seq);
-				var them = $.mustache($("#recent-messages").html(), {
-					items : data.rows.map(function(r) {return r.value;})
+				// TODO: setup _changes
+				//setupChanges(data.update_seq);
+				var them = $.mustache($("#mygames-template").html(), {
+					games : data.rows.map(function(r) {
+						p = {};
+						p.player = r.key.player;
+						for (player in r.value.players) {
+							if (r.value.players[player].name != r.key.player) {
+								p.opponent = r.value.players[player].name;
+							}
+						}
+						p.gameid = r.value._id;
+						p.turn = r.value.turn;
+						return p;
+					})
 				});
-				$("#content").html(them);
+				$("#mygames").html(them);
 			}
 		});
 	};
-	drawItems();
+	
 	var changesRunning = false;
 	function setupChanges(since) {
 		if (!changesRunning) {
@@ -43,7 +69,7 @@ $(function() {
 			changeHandler.onChange(drawItems);
 		}
 	}
-	$.couchProfile.templates.profileReady = $("#new-message").html();
+	
 	$("#account").couchLogin({
 		loggedIn : function(r) {
 			$("#profile").couchProfile(r, {
@@ -58,9 +84,12 @@ $(function() {
 					}).find("input").focus();
 				}
 			});
+			
+			drawGameList(r);
 		},
 		loggedOut : function() {
 			$("#profile").html('<p>Please log in to see your profile.</p>');
+			$("#mygames").html('<p>Please log in to see your games.</p>')
 		}
 	});
  });

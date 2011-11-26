@@ -10,7 +10,7 @@
 		<h1>Tic Tac Toe</h1>
 
 		<div id="profile"></div>
-		<div id="content"></div>
+		<div id="mygames"></div>
 
 		<div id="sidebar">
 			<p>Edit welcome message.</p>
@@ -60,6 +60,19 @@
 		<p><em>Protip:</em> If you setup continuous replication between this database and a remote one, this list will reflect remote changes in near real-time.</p>
 		<p>This would be a good place to add pagination.</p>
 	</script>
+	
+	<script id="mygames-template" type="text/x-mustache" charset="utf-8">
+		<h3>Your Games</h3>
+		<ul>
+			{{#games}}
+				<li>
+					<p class="game">{{player}} vs {{opponent}} - turn {{turn}} <a href="#{{gameid}}">play!!</a></p>
+					<div style="clear:left;"></div>
+				</li>
+			{{/games}}
+		</ul>
+	</script>
+	
 	<script src="script/app.js"></script>
 
 </html>
