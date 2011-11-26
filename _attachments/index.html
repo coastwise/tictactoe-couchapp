@@ -67,7 +67,7 @@
 		<ul>
 			{{#games}}
 				<li>
-					<p class="game">{{player}} vs {{opponent}} - turn {{turn}} <a href="#{{gameid}}">play!!</a></p>
+					<p class="game">{{player}} vs {{opponent}} - turn {{turn}} <a href="#" onClick="$('#game').trigger('loadGame','{{gameid}}'); return false;">play!!</a></p>
 					<div style="clear:left;"></div>
 				</li>
 			{{/games}}
