@@ -55,20 +55,19 @@ $(function() {
 	function clickHandler(e) {
 		var x = Math.floor(e.offsetX / (width/ 3));
 		var y = Math.floor(e.offsetY / (height / 3));
-		console.log("x: " + x + ", y: " + y + ", val: " + gameDocument.board[x][y]);
+		console.log("x: " + x + ", y: " + y);
 		
-		if (gameDocument.board[x][y] == 0) {
-			gameDocument.board[x][y] = 1;
-			
-			gameDocument.turn = gameDocument.turn + 1;
-			
-			// TODO: switch whos turn it is
-			
-			db.saveDoc(gameDocument, {
-				success : function (result) {
-					console.log("turn saved");
-				}
-			})
-		}
+		gameDocument.turn = gameDocument.turn + 1;
+		
+		// turn loops through list of players
+		gameDocument.whosturn = gameDocument.whosturn + 1;
+		if (gameDocument.whosturn == gameDocument.players.length)
+			gameDocument.whosturn = 0;
+		
+		db.saveDoc(gameDocument, {
+			success : function (result) {
+				console.log("turn saved");
+			}
+		})
 	}
 });
