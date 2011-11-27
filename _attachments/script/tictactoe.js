@@ -59,6 +59,11 @@ $(function() {
 		
 		if (gameDocument.board[x][y] == 0) {
 			gameDocument.board[x][y] = 1;
+			
+			gameDocument.turn = gameDocument.turn + 1;
+			
+			// TODO: switch whos turn it is
+			
 			db.saveDoc(gameDocument, {
 				success : function (result) {
 					console.log("turn saved");
