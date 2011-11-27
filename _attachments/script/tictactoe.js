@@ -5,6 +5,7 @@ $(function() {
 		db = $.couch.db(path[1]);
 	
 	var gameDocument;
+	var player;
 	
 	function loadGame(e, gameDocId) {
 		console.log("loading game " + gameDocId);
@@ -14,6 +15,15 @@ $(function() {
 				gameDocument = gameDoc;
 				drawBoard();
 				$("#board").click(clickHandler);
+				
+				// store the player info
+				for (p in gameDocument.players) {
+					// TODO: is this the best way to discover the logged in user?
+					// see jquery.couchLogin.js line 80
+					if (gameDocument.players[p].name == $('a.name').text()) {
+						player = gameDocument.players[p];
+					}
+				}
 			}
 		});
 	}
