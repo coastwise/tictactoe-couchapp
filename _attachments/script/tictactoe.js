@@ -14,6 +14,7 @@ $(function() {
 				console.log("successfully loaded game " + gameDocId);
 				gameDocument = gameDoc;
 				drawBoard();
+				drawMoves();
 				$("#board").click(clickHandler);
 				
 				// store the player info
@@ -31,6 +32,7 @@ $(function() {
 	
 	var context;
 	var width, height;
+	var offsetX, offsetY;
 	
 	function drawBoard() {
 		// insert the canvas
@@ -39,6 +41,9 @@ $(function() {
 		var canvas = document.getElementById('board');
 		width = canvas.width;
 		height = canvas.height;
+		
+		offsetX = (width / 3) * 0.1;
+		offsetY = (height / 3) * 0.1;
 		
 		context = canvas.getContext('2d');
 		
@@ -57,6 +62,51 @@ $(function() {
 
 		context.moveTo(0, (height / 3) * 2);
 		context.lineTo(width, (height / 3) * 2);
+
+		context.stroke();
+		context.closePath();
+	}
+	
+	function drawMoves() {
+		for (m in gameDocument.moves) {
+			var move = gameDocument.moves[m];
+			if (move.player.token == "X") {
+				drawX(move.x, move.y);
+			} else if (move.player.token == "O") {
+				drawO(move.x, move.y);
+			}
+		}
+	}
+	
+	function drawX(x, y) {
+		var beginX = x * (width / 3) + offsetX;
+		var beginY = y * (height / 3) + offsetY;
+		
+		var endX = (x + 1) * (width / 3) - offsetX * 2;
+		var endY = (y + 1) * (height / 3) - offsetY * 2;
+		
+		context.beginPath();
+		
+		context.moveTo(beginX, beginY);
+		context.lineTo(endX, endY);
+		
+		context.moveTo(beginX, endY);
+		context.lineTo(endX, beginY);
+		
+		context.stroke();
+		context.closePath();
+	}
+	
+	function drawO(x, y) {
+		var beginX = x * (width / 3) + offsetX;
+		var beginY = y * (height / 3) + offsetY;
+
+		var endX = (x + 1) * (width / 3) - offsetX * 2;
+		var endY = (y + 1) * (height / 3) - offsetY * 2;
+
+		context.beginPath();
+		
+		context.arc(beginX + ((endX - beginX) / 2), beginY + ((endY - beginY) / 2), (endX - beginX) / 2 , 0, Math.PI * 2, true);
 
 		context.stroke();
 		context.closePath();
