@@ -21,12 +21,8 @@ $(function() {
 		design = path[3],
 		db = $.couch.db(path[1]);
 	
-	function drawGameList(r) {
-		if (!r.userCtx || !r.userCtx.name) {
-			console.log("ERROR: cannot draw games list for null player");
-			return;
-		}
-		var username = r.userCtx.name;
+	function drawGameList() {
+		var username = $('a.name').text();
 		
 		db.view(design + "/games-by-player", {
 			startkey : {
@@ -40,8 +36,7 @@ $(function() {
 			update_seq : true,
 			
 			success : function(data) {
-				// TODO: setup _changes
-				//setupChanges(data.update_seq);
+				setupChanges(data.update_seq);
 				var them = $.mustache($("#mygames-template").html(), {
 					games : data.rows.map(function(r) {
 						p = {};
@@ -66,7 +61,7 @@ $(function() {
 		if (!changesRunning) {
 			var changeHandler = db.changes(since);
 			changesRunning = true;
-			changeHandler.onChange(drawItems);
+			changeHandler.onChange(drawGameList); // push changes listener
 		}
 	}
 	
@@ -85,11 +80,12 @@ $(function() {
 				}
 			});
 			
-			drawGameList(r);
+			drawGameList();
 		},
 		loggedOut : function() {
 			$("#profile").html('<p>Please log in to see your profile.</p>');
-			$("#mygames").html('<p>Please log in to see your games.</p>')
+			$("#mygames").html('<p>Please log in to see your games.</p>');
+			$("#game").html('');
 		}
 	});
  });
