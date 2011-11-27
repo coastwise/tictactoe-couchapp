@@ -5,10 +5,17 @@ function(newDoc, oldDoc, userCtx) {
 			throw({forbidden : "it's not your turn!"});
 		}
 		
-		if (newDoc.turn != oldDoc.turn + 1) {
-			throw({forbidden : 'invalid turn number'});
+		for (t in oldDoc.moves) {
+			if (newDoc.moves[t] != oldDoc.moves[t]) {
+				throw({forbidden : "you can't change the past!"});
+			}
 		}
 		
+		if (newDoc.moves.length > oldDoc.moves.length + 1) {
+			throw({forbidden : "you're only allowed one move!"});
+		}
+		
+		// TODO: validate newDoc.moves[newDoc.moves.length-1]
 		
 	}
 	//throw({forbidden : 'no way'});

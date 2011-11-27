@@ -63,11 +63,12 @@ $(function() {
 	}
 	
 	function clickHandler(e) {
-		var x = Math.floor(e.offsetX / (width/ 3));
-		var y = Math.floor(e.offsetY / (height / 3));
-		console.log("x: " + x + ", y: " + y);
-		
-		gameDocument.turn = gameDocument.turn + 1;
+		var move = {
+			"x" : Math.floor(e.offsetX / (width/3)),
+			"y" : Math.floor(e.offsetY / (height / 3)),
+			"player" : player
+		};
+		gameDocument.moves.push(move);
 		
 		// turn loops through list of players
 		gameDocument.whosturn = gameDocument.whosturn + 1;

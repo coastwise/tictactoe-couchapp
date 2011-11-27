@@ -52,7 +52,7 @@ $(function() {
 							}
 						}
 						p.gameid = r.value._id;
-						p.turn = r.value.turn;
+						p.turn = r.value.moves.length;
 						return p;
 					})
 				});
