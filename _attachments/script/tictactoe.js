@@ -67,15 +67,16 @@ $(function() {
 		context.closePath();
 	}
 	
-	function drawMoves() {
-		for (m in gameDocument.moves) {
-			var move = gameDocument.moves[m];
-			if (move.player.token == "X") {
-				drawX(move.x, move.y);
-			} else if (move.player.token == "O") {
-				drawO(move.x, move.y);
-			}
+	function drawMove(move) {
+		if (move.player.token == "X") {
+			drawX(move.x, move.y);
+		} else if (move.player.token == "O") {
+			drawO(move.x, move.y);
 		}
+	}
+	
+	function drawMoves() {
+		for (m in gameDocument.moves) drawMove(gameDocument.moves[m]);
 	}
 	
 	function drawX(x, y) {
@@ -128,6 +129,7 @@ $(function() {
 		db.saveDoc(gameDocument, {
 			success : function (result) {
 				console.log("turn saved");
+				drawMove(move);
 			}
 		})
 	}
