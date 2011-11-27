@@ -4,26 +4,33 @@ $(function() {
 		design = path[3],
 		db = $.couch.db(path[1]);
 	
+	var gameDocument;
+	
 	function loadGame(e, gameDocId) {
 		console.log("loading game " + gameDocId);
 		db.openDoc(gameDocId, {
 			success : function(gameDoc) {
 				console.log("successfully loaded game " + gameDocId);
+				gameDocument = gameDoc;
 				drawBoard();
+				$("#board").click(clickHandler);
 			}
 		});
 	}
 	$('#game').bind('loadGame', loadGame);
+	
+	var context;
+	var width, height;
 	
 	function drawBoard() {
 		// insert the canvas
 		$('#game').html($("#board-template").html());
 		
 		var canvas = document.getElementById('board');
-		var width = canvas.width;
-		var height = canvas.height;
+		width = canvas.width;
+		height = canvas.height;
 		
-		var context = canvas.getContext('2d');
+		context = canvas.getContext('2d');
 		
 		context.beginPath();
 		context.strokeStyle = '#000';
@@ -43,5 +50,20 @@ $(function() {
 
 		context.stroke();
 		context.closePath();
+	}
+	
+	function clickHandler(e) {
+		var x = Math.floor(e.offsetX / (width/ 3));
+		var y = Math.floor(e.offsetY / (height / 3));
+		console.log("x: " + x + ", y: " + y + ", val: " + gameDocument.board[x][y]);
+		
+		if (gameDocument.board[x][y] == 0) {
+			gameDocument.board[x][y] = 1;
+			db.saveDoc(gameDocument, {
+				success : function (result) {
+					console.log("turn saved");
+				}
+			})
+		}
 	}
 });
