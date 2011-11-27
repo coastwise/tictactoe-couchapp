@@ -7,8 +7,13 @@ function(newDoc, oldDoc, userCtx) {
 		
 		for (var i = 0, l = oldDoc.moves.length; i < l; i++) {
 			for (var prop in oldDoc.moves[i]) {
-				if (newDoc.moves[i][prop] != oldDoc.moves[i][prop])
-					throw({forbidden : "you can't change the past! " + i + "[" + prop + "]"});
+				if (prop == 'player') {
+					for (var playerprop in oldDoc.moves[i].player) {
+						if (newDoc.moves[i].player[playerprop] != oldDoc.moves[i].player[playerprop])
+							throw({forbidden : "you can't change the past! []" + i + "].player[" + playerprop + "]"});
+					}
+				} else if (newDoc.moves[i][prop] != oldDoc.moves[i][prop])
+					throw({forbidden : "you can't change the past! [" + i + "][" + prop + "]"});
 			}
 		}
 		
