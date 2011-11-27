@@ -1,5 +1,5 @@
 function(newDoc, oldDoc, userCtx) {
-	if (newDoc.type == "tictactoe") {
+	if (newDoc.type == "tictactoe-game") {
 		
 		if (oldDoc.players[oldDoc.whosturn].name != userCtx.name) {
 			throw({forbidden : "it's not your turn!"});
