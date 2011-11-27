@@ -5,9 +5,10 @@ function(newDoc, oldDoc, userCtx) {
 			throw({forbidden : "it's not your turn!"});
 		}
 		
-		for (t in oldDoc.moves) {
-			if (newDoc.moves[t] != oldDoc.moves[t]) {
-				throw({forbidden : "you can't change the past!"});
+		for (var i = 0, l = oldDoc.moves.length; i < l; i++) {
+			for (var prop in oldDoc.moves[i]) {
+				if (newDoc.moves[i][prop] != oldDoc.moves[i][prop])
+					throw({forbidden : "you can't change the past! " + i + "[" + prop + "]"});
 			}
 		}
 		
