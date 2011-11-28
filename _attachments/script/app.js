@@ -59,7 +59,9 @@ $(function() {
 	var changesRunning = false;
 	function setupChanges(since) {
 		if (!changesRunning) {
-			var changeHandler = db.changes(since);
+			var changeHandler = db.changes(since, {
+				filter : "tictactoe/mygames"
+			});
 			changesRunning = true;
 			changeHandler.onChange(drawGameList); // push changes listener
 		}
