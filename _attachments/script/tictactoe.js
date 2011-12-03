@@ -25,10 +25,44 @@ $(function() {
 						player = gameDocument.players[p];
 					}
 				}
+				
+				// setup changes feed
+				setupGameChanges(gameDoc._id);
 			}
 		});
 	}
 	$('#game').bind('loadGame', loadGame);
+	
+	
+	var changesFeed;
+	function setupGameChanges(gameId) {
+		console.log("setupChanges for game " + gameId);
+		
+		// TODO: don't get changes since zero, this will cause an extra fetch
+		var since = 0;
+		changesFeed = db.changes(since, {
+			filter : "tictactoe/games",
+			id : gameId
+		});
+		changesFeed.onChange(function(r){
+			console.log("game onChange");
+			reloadGame(gameId);
+		});
+	}
+	
+	
+	// when update is notified in changes feed
+	function reloadGame(gameDocId) {
+		db.openDoc(gameDocId, {
+			success : function(gameDoc) {
+				gameDocument = gameDoc;
+				drawBoard();
+				drawMoves();
+				$("#board").click(clickHandler);
+			}
+		});
+	}
+	
 	
 	var context;
 	var width, height;
